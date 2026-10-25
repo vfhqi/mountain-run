@@ -1,22 +1,23 @@
-/* Mountain Run offline helper (by Watson). Version: 2026-10-25.3
+/* Mountain Run offline helper (by Watson). Version: 2026-10-25.4
    Online: always asks the website for the newest files first (bypassing the browser's 10-minute
    saved copy), so a new version arrives the next time the game is opened.
    Offline: plays from the copy saved on the device at the last visit. */
-const CACHE = "mountain-run-2026-10-25.3";
+const CACHE = "mountain-run-2026-10-25.4";
 const FILES = [
  "./",
- "engine-setup.js?v=2026-10-25.3",
+ "engine-setup.js?v=2026-10-25.4",
+ "game-tweaks.js?v=2026-10-25.4",
  "icons/icon-180.png",
  "icons/icon-192.png",
  "icons/icon-512.png",
  "index.html",
- "labyrinth-and-loop.js?v=2026-10-25.3",
+ "labyrinth-and-loop.js?v=2026-10-25.4",
  "manifest.json",
- "style.css?v=2026-10-25.3",
- "tablet-controls.css?v=2026-10-25.3",
- "tablet-controls.js?v=2026-10-25.3",
+ "style.css?v=2026-10-25.4",
+ "tablet-controls.css?v=2026-10-25.4",
+ "tablet-controls.js?v=2026-10-25.4",
  "title.png",
- "train-and-pass.js?v=2026-10-25.3",
+ "train-and-pass.js?v=2026-10-25.4",
  "vendor/cdnjs.cloudflare.com_ajax_libs_three.js_r128_three.min.js"
 ];
 self.addEventListener("install", e => {
