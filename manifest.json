@@ -1,7 +1,7 @@
 {
   "name": "Mountain Run",
   "short_name": "Mountain Run",
-  "description": "The Curse of Blackwood Peak - a game by the boys",
+  "description": "The Curse of Blackwood Peak - a 3D adventure game",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",

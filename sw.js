@@ -1,21 +1,22 @@
-/* Mountain Run offline helper (by Watson). Version: 2026-10-25.1
-   Online: always fetches the newest files first, so new versions arrive at once.
+/* Mountain Run offline helper (by Watson). Version: 2026-10-25.2
+   Online: always asks the website for the newest files first (bypassing the browser's 10-minute
+   saved copy), so a new version arrives the next time the game is opened.
    Offline: plays from the copy saved on the device at the last visit. */
-const CACHE = "mountain-run-2026-10-25.1";
+const CACHE = "mountain-run-2026-10-25.2";
 const FILES = [
  "./",
- "engine-setup.js?v=2026-10-25.1",
+ "engine-setup.js?v=2026-10-25.2",
  "icons/icon-180.png",
  "icons/icon-192.png",
  "icons/icon-512.png",
  "index.html",
- "labyrinth-and-loop.js?v=2026-10-25.1",
+ "labyrinth-and-loop.js?v=2026-10-25.2",
  "manifest.json",
- "style.css?v=2026-10-25.1",
- "tablet-controls.css?v=2026-10-25.1",
- "tablet-controls.js?v=2026-10-25.1",
+ "style.css?v=2026-10-25.2",
+ "tablet-controls.css?v=2026-10-25.2",
+ "tablet-controls.js?v=2026-10-25.2",
  "title.png",
- "train-and-pass.js?v=2026-10-25.1",
+ "train-and-pass.js?v=2026-10-25.2",
  "vendor/cdnjs.cloudflare.com_ajax_libs_three.js_r128_three.min.js"
 ];
 self.addEventListener("install", e => {
@@ -27,7 +28,7 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET" || new URL(e.request.url).origin !== self.location.origin) return;
   e.respondWith(
-    fetch(e.request).then(resp => {
+    fetch(new Request(e.request.url, { cache: "no-cache", credentials: "same-origin" })).then(resp => {
       if (resp && resp.ok) { const copy = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
       return resp;
     }).catch(() => caches.match(e.request, { ignoreSearch: false }).then(hit => hit || caches.match(e.request, { ignoreSearch: true })).then(hit => hit || caches.match("./")))

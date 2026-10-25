@@ -1,8 +1,8 @@
 /*
- * Mountain Run - tablet controls add-on (by Watson, for the boys' game).
+ * Mountain Run - tablet controls add-on.
  *
- * This file sits BESIDE the boys' own game files and never edits them.
- * It talks to the game only through these names from their code:
+ * This file sits BESIDE the game's own files and never edits them.
+ * It talks to the game only through these names from the game's code:
  *   state.moveForward / moveBackward / moveLeft / moveRight / isFiring
  *   state.aimYawOffset / aimPitch / isPerched / isRunning
  *   cycleWeapon(), toggle180Turn(), handleInteractKey(), renderer, canvas
@@ -84,7 +84,7 @@
     }
 
     // ---------- 3b. Crash guard for the haunted manor (applies on every device) ----------
-    // The boys' 23-Oct-26 version stores each seal's position as seal.x / seal.z but reads it as
+    // The 23-Oct-26 version of the game stores each seal's position as seal.x / seal.z but reads it as
     // seal.worldPos.x / .z, which stops the manor from drawing. This fills in the missing
     // worldPos from the values the game already has. It changes no gameplay, and does nothing
     // once a new version of the game fixes the slip itself.
@@ -290,14 +290,19 @@
     }
     // iPad needs one tap on "Allow" (Apple's rule); it must be asked from a button press.
     function askForTilt(fromUser) {
-        if (isIOS && typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
+        // Ask on ANY device that offers the permission step (an iPad can pretend to be a Mac, so
+        // never rely only on recognising it). On Android the step is not needed: if it is refused
+        // or fails there, listen anyway.
+        var hasAsk = typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function";
+        if (hasAsk) {
             DeviceOrientationEvent.requestPermission().then(function (answer) {
-                if (answer === "granted") { startTiltListening(); }
+                if (answer === "granted" || !isIOS) { startTiltListening(); }
                 else {
                     settings.tilt = false; saveSettings(); syncPanel();
                     toast("Tilt is off (motion access was not allowed). Drag the screen to look around.", 5000);
                 }
             }).catch(function () {
+                if (!isIOS) { startTiltListening(); return; }
                 if (fromUser) toast("Tilt needs a tap on Allow. Try the Tilt switch in Settings.", 4500);
             });
         } else {

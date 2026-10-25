@@ -1,6 +1,6 @@
-/* Mountain Run - tablet controls add-on styles (by Watson). Sits beside the boys' style.css. */
+/* Mountain Run - tablet controls add-on styles. Sits beside the game's own style.css. */
 
-/* The boys' old on-screen arrow and action buttons are replaced on tablets and not needed on a PC. */
+/* The game's old on-screen arrow and action buttons are replaced on tablets and not needed on a PC. */
 #mobile-controls { display: none !important; }
 .mr-desktop #mr-pad, .mr-desktop #mr-rotate, .mr-desktop #mr-panel { display: none !important; }
 
