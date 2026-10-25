@@ -11,14 +11,31 @@ html.mr-touch #touch-look-hint { display: none; }
 
 /* ---- Tablet HUD: keep the corners free for thumbs ---- */
 /* Bottom row: weapon card and distance card sit in the middle, between the two thumb zones. */
-html.mr-touch .hud-bottom { justify-content: center; align-items: flex-end; gap: 12px; padding: 0 228px 0 214px; }
+html.mr-touch .hud-bottom { justify-content: center; align-items: flex-end; gap: 12px; padding: 0 240px 0 214px; }
 html.mr-touch .hud-bottom .hud-panel { min-width: 0; padding: 8px 12px; }
+/* Weapon panel (Richard, 25-Oct-26): on the right, directly above FIRE, so the right thumb reaches it. */
+html.mr-touch .hud-card-weapon {
+    position: fixed; z-index: 21;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: calc(max(18px, env(safe-area-inset-bottom)) + 126px);
+    width: 206px; padding: 7px 9px 9px 9px !important;
+}
+html.mr-touch .hud-card-weapon .hud-row { gap: 6px; }
+html.mr-touch .hud-card-weapon .hud-subrow { margin-top: 2px; }
+html.mr-touch .hud-card-weapon .hud-subpill { font-size: 9px; padding: 2px 6px; }
+html.mr-touch .hud-card-weapon .weapon-slots-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+html.mr-touch .hud-card-weapon .weapon-slot { min-height: 46px; min-width: 0; width: 100%; }
+html.mr-touch .hud-card-weapon .weapon-slot.active { transform: none; }
+html.mr-touch .hud-card-weapon .weapon-slot svg { width: 16px; height: 16px; flex: 0 0 16px; }
 html.mr-touch .hud-card-weapon .hud-label { display: none; }
 html.mr-touch .hud-card-weapon .hud-icon-badge { display: none; }
 html.mr-touch .hud-subpill:has(#facing-value) { display: none; }
-html.mr-touch #weapon-value { font-size: 17px; }
-html.mr-touch .weapon-slots-bar { gap: 8px; margin-top: 6px; }
-html.mr-touch .weapon-slot { min-height: 44px; min-width: 64px; padding: 6px 10px; font-size: 11px; justify-content: center; touch-action: none; }
+html.mr-touch #weapon-value { font-size: 15px; }
+html.mr-touch .weapon-slot { min-height: 44px; padding: 6px 8px; font-size: 11px; justify-content: center; touch-action: none; }
+/* The maze map is made a little smaller on tablets so it stays clear of the USE button. */
+html.mr-touch #minimap-canvas { width: 118px !important; height: 118px !important; }
+html.mr-touch #minimap-container { padding: 8px; }
+html.mr-touch #minimap-header, html.mr-touch #minimap-direction-banner, html.mr-touch #minimap-tier-tag { font-size: 10px; }
 html.mr-touch .hud-bottom .hud-card-right .hud-icon-badge { display: none; }
 html.mr-touch #distance-value { font-size: 18px; }
 html.mr-touch .hud-bottom .hud-card-right .hud-label { font-size: 9px; }
@@ -61,7 +78,7 @@ html.mr-touch #boss-vulnerability-hint, html.mr-touch #boss-weapon-status { font
     position: absolute;
     right: max(20px, env(safe-area-inset-right));
     bottom: max(18px, env(safe-area-inset-bottom));
-    width: 212px; height: 212px;
+    width: 206px; height: 112px;
     pointer-events: none;
 }
 .mr-btn {
@@ -74,17 +91,17 @@ html.mr-touch #boss-vulnerability-hint, html.mr-touch #boss-weapon-status { font
     transition: transform 0.06s ease, filter 0.06s ease;
 }
 .mr-btn.down { transform: scale(0.92); filter: brightness(1.35); }
-#mr-fire { right: 0; bottom: 0; width: 116px; height: 116px; font-size: 20px; background: radial-gradient(circle at 35% 30%, #ff8a80 0%, #e53935 55%, #8e1b1b 100%); border-color: #ffd0cc; }
-#mr-swap { right: 128px; bottom: 6px; width: 80px; height: 80px; background: radial-gradient(circle at 35% 30%, #90caf9 0%, #1f6feb 60%, #0d3a80 100%); }
-#mr-use  { right: 6px; bottom: 128px; width: 80px; height: 80px; background: radial-gradient(circle at 35% 30%, #a5d6a7 0%, #2ea043 60%, #145a23 100%); }
-#mr-turn { right: 122px; bottom: 122px; width: 72px; height: 72px; font-size: 16px; background: radial-gradient(circle at 35% 30%, #d1b3ff 0%, #6e40c9 60%, #3a1d7a 100%); }
+#mr-fire { right: 0; bottom: 0; width: 112px; height: 112px; font-size: 20px; background: radial-gradient(circle at 35% 30%, #ff8a80 0%, #e53935 55%, #8e1b1b 100%); border-color: #ffd0cc; }
+#mr-swap { right: 124px; bottom: 4px; width: 80px; height: 80px; background: radial-gradient(circle at 35% 30%, #90caf9 0%, #1f6feb 60%, #0d3a80 100%); }
+#mr-use  { right: 83px; bottom: 330px; width: 76px; height: 76px; background: radial-gradient(circle at 35% 30%, #a5d6a7 0%, #2ea043 60%, #145a23 100%); }
+#mr-turn { left: max(22px, env(safe-area-inset-left)); bottom: calc(max(20px, env(safe-area-inset-bottom)) + 204px); width: 76px; height: 76px; font-size: 16px; background: radial-gradient(circle at 35% 30%, #d1b3ff 0%, #6e40c9 60%, #3a1d7a 100%); }
 .mr-btn.ask { animation: mr-pulse 0.9s ease-in-out infinite; }
 @keyframes mr-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.0), 0 6px 16px rgba(0,0,0,0.6); } 50% { box-shadow: 0 0 0 10px rgba(255,255,255,0.45), 0 6px 16px rgba(0,0,0,0.6); } }
 
 html.mr-touch #mr-gear {
     position: absolute;
     left: max(22px, env(safe-area-inset-left));
-    bottom: calc(max(20px, env(safe-area-inset-bottom)) + 206px);
+    top: calc(max(12px, env(safe-area-inset-top)) + 140px);
     width: 52px; height: 52px; border-radius: 50%;
     background: rgba(22,27,34,0.78); border: 2px solid rgba(165,214,255,0.6);
     color: #e6f2ff; font-size: 28px; line-height: 48px; text-align: center;
@@ -141,6 +158,8 @@ html.mr-touch #mr-gear {
     #mr-stick { width: 150px; height: 150px; }
     #mr-stick-knob { width: 64px; height: 64px; }
     #mr-buttons { transform: scale(0.86); transform-origin: bottom right; }
-    html.mr-touch #mr-gear { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 180px); }
-    html.mr-touch .hud-bottom { padding: 0 200px 0 186px; }
+    html.mr-touch .hud-card-weapon { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 108px); }
+    #mr-turn { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 176px); width: 66px; height: 66px; }
+    html.mr-touch #mr-gear { top: calc(max(12px, env(safe-area-inset-top)) + 120px); }
+    html.mr-touch .hud-bottom { padding: 0 220px 0 186px; }
 }

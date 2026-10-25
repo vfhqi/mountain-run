@@ -116,7 +116,7 @@
 
     // ---------- 4. Tablet controls ----------
     var modal = doc.getElementById("modal-status");
-    if (modal) modal.textContent = "Left thumb: move  |  Tilt the tablet or drag the screen: look  |  Right thumb: Fire, Swap, 180, Use";
+    if (modal) modal.textContent = "Tilt the tablet or drag the screen: look  |  Left thumb: move and 180  |  Right thumb: Fire, weapons, Swap, Use";
     var hint = doc.getElementById("touch-look-hint");
     if (hint) hint.textContent = "";
 
@@ -126,9 +126,9 @@
         '<div id="mr-buttons">' +
         '  <button type="button" class="mr-btn" id="mr-fire" aria-label="Fire">FIRE</button>' +
         '  <button type="button" class="mr-btn" id="mr-swap" aria-label="Swap weapon">SWAP</button>' +
-        '  <button type="button" class="mr-btn" id="mr-turn" aria-label="Turn round">180°</button>' +
-        '  <button type="button" class="mr-btn" id="mr-use" aria-label="Use">USE</button>' +
         '</div>' +
+        '<button type="button" class="mr-btn" id="mr-use" aria-label="Use">USE</button>' +
+        '<button type="button" class="mr-btn" id="mr-turn" aria-label="Turn round">180°</button>' +
         '<button type="button" id="mr-gear" aria-label="Settings">&#9881;</button>';
     doc.body.appendChild(pad);
 
@@ -214,7 +214,21 @@
     // Make the Use and 180 buttons glow when the game is asking for them.
     var useBtn = doc.getElementById("mr-use"), turnBtn = doc.getElementById("mr-turn");
     var interactPrompt = doc.getElementById("interact-prompt"), rearWarning = doc.getElementById("rear-warning");
+    // Layout requested by Richard (25-Oct-26): the weapon panel sits on the right above FIRE,
+    // and USE sits directly above the weapon panel.
+    var weaponCard = doc.querySelector(".hud-card-weapon");
+    function placeUse() {
+        if (!weaponCard) return;
+        var r = weaponCard.getBoundingClientRect();
+        if (!r.width) return;
+        var w = useBtn.offsetWidth || 76;
+        useBtn.style.bottom = Math.round(window.innerHeight - r.top + 10) + "px";
+        useBtn.style.right = Math.round(window.innerWidth - r.right + (r.width - w) / 2) + "px";
+    }
+    placeUse();
+    window.addEventListener("resize", function () { setTimeout(placeUse, 60); });
     setInterval(function () {
+        placeUse();
         if (interactPrompt) useBtn.classList.toggle("ask", interactPrompt.style.display === "block");
         if (rearWarning) turnBtn.classList.toggle("ask", rearWarning.style.display === "block");
     }, 200);
