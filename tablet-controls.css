@@ -1,0 +1,146 @@
+/* Mountain Run - tablet controls add-on styles (by Watson). Sits beside the boys' style.css. */
+
+/* The boys' old on-screen arrow and action buttons are replaced on tablets and not needed on a PC. */
+#mobile-controls { display: none !important; }
+.mr-desktop #mr-pad, .mr-desktop #mr-rotate, .mr-desktop #mr-panel { display: none !important; }
+
+/* Use the real visible screen height on tablets (Safari's toolbars otherwise hide the bottom). */
+html.mr-touch, html.mr-touch body { height: 100%; height: 100dvh; overscroll-behavior: none; }
+html.mr-touch #hud { height: 100dvh; padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
+html.mr-touch #touch-look-hint { display: none; }
+
+/* ---- Tablet HUD: keep the corners free for thumbs ---- */
+/* Bottom row: weapon card and distance card sit in the middle, between the two thumb zones. */
+html.mr-touch .hud-bottom { justify-content: center; align-items: flex-end; gap: 12px; padding: 0 228px 0 214px; }
+html.mr-touch .hud-bottom .hud-panel { min-width: 0; padding: 8px 12px; }
+html.mr-touch .hud-card-weapon .hud-label { display: none; }
+html.mr-touch .hud-card-weapon .hud-icon-badge { display: none; }
+html.mr-touch .hud-subpill:has(#facing-value) { display: none; }
+html.mr-touch #weapon-value { font-size: 17px; }
+html.mr-touch .weapon-slots-bar { gap: 8px; margin-top: 6px; }
+html.mr-touch .weapon-slot { min-height: 44px; min-width: 64px; padding: 6px 10px; font-size: 11px; justify-content: center; touch-action: none; }
+html.mr-touch .hud-bottom .hud-card-right .hud-icon-badge { display: none; }
+html.mr-touch #distance-value { font-size: 18px; }
+html.mr-touch .hud-bottom .hud-card-right .hud-label { font-size: 9px; }
+
+/* The boss health bar fits between the two top cards on an iPad mini. */
+html.mr-touch #boss-hud { width: min(420px, calc(100vw - 700px)); min-width: 360px; padding: 9px 12px; }
+html.mr-touch #boss-name, html.mr-touch #boss-phase { font-size: 11px; }
+html.mr-touch #boss-vulnerability-hint, html.mr-touch #boss-weapon-status { font-size: 11px; }
+
+/* ---- Thumb controls ---- */
+#mr-pad { position: fixed; inset: 0; pointer-events: none; z-index: 20; }
+#mr-pad * { -webkit-tap-highlight-color: transparent; }
+
+#mr-stick {
+    position: absolute;
+    left: max(22px, env(safe-area-inset-left));
+    bottom: max(20px, env(safe-area-inset-bottom));
+    width: 176px; height: 176px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(22,27,34,0.55) 70%);
+    border: 3px solid rgba(165, 214, 255, 0.55);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55), inset 0 0 18px rgba(0,0,0,0.4);
+    pointer-events: auto; touch-action: none;
+}
+#mr-stick.down { border-color: #a5d6ff; }
+#mr-stick-knob {
+    position: absolute; left: 50%; top: 50%;
+    width: 76px; height: 76px; border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 35% 30%, #e6f2ff 0%, #7fb6ee 55%, #3b6fa8 100%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    pointer-events: none;
+}
+.mr-stick-label {
+    position: absolute; left: 50%; top: -22px; transform: translateX(-50%);
+    font: 900 11px/1 "Segoe UI", Tahoma, sans-serif; letter-spacing: 2px; color: rgba(230,240,255,0.75);
+    text-shadow: 0 1px 3px #000; pointer-events: none;
+}
+
+#mr-buttons {
+    position: absolute;
+    right: max(20px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    width: 212px; height: 212px;
+    pointer-events: none;
+}
+.mr-btn {
+    position: absolute; border-radius: 50%;
+    font: 900 15px/1 "Segoe UI", Tahoma, sans-serif; letter-spacing: 1px; color: #fff;
+    border: 3px solid rgba(255,255,255,0.55);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none;
+    transition: transform 0.06s ease, filter 0.06s ease;
+}
+.mr-btn.down { transform: scale(0.92); filter: brightness(1.35); }
+#mr-fire { right: 0; bottom: 0; width: 116px; height: 116px; font-size: 20px; background: radial-gradient(circle at 35% 30%, #ff8a80 0%, #e53935 55%, #8e1b1b 100%); border-color: #ffd0cc; }
+#mr-swap { right: 128px; bottom: 6px; width: 80px; height: 80px; background: radial-gradient(circle at 35% 30%, #90caf9 0%, #1f6feb 60%, #0d3a80 100%); }
+#mr-use  { right: 6px; bottom: 128px; width: 80px; height: 80px; background: radial-gradient(circle at 35% 30%, #a5d6a7 0%, #2ea043 60%, #145a23 100%); }
+#mr-turn { right: 122px; bottom: 122px; width: 72px; height: 72px; font-size: 16px; background: radial-gradient(circle at 35% 30%, #d1b3ff 0%, #6e40c9 60%, #3a1d7a 100%); }
+.mr-btn.ask { animation: mr-pulse 0.9s ease-in-out infinite; }
+@keyframes mr-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.0), 0 6px 16px rgba(0,0,0,0.6); } 50% { box-shadow: 0 0 0 10px rgba(255,255,255,0.45), 0 6px 16px rgba(0,0,0,0.6); } }
+
+html.mr-touch #mr-gear {
+    position: absolute;
+    left: max(22px, env(safe-area-inset-left));
+    bottom: calc(max(20px, env(safe-area-inset-bottom)) + 206px);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(22,27,34,0.78); border: 2px solid rgba(165,214,255,0.6);
+    color: #e6f2ff; font-size: 28px; line-height: 48px; text-align: center;
+    pointer-events: auto; touch-action: none; overflow: visible;
+}
+
+/* ---- "Turn sideways" message ---- */
+#mr-rotate { display: none; }
+@media (orientation: portrait) {
+    html.mr-touch #mr-rotate {
+        display: flex; position: fixed; inset: 0; z-index: 100;
+        background: rgba(8, 11, 16, 0.96); align-items: center; justify-content: center;
+    }
+}
+.mr-rotate-box { text-align: center; font: 900 26px/1.4 "Segoe UI", Tahoma, sans-serif; color: #f0f6fc; letter-spacing: 1px; padding: 30px; }
+.mr-rotate-icon { font-size: 90px; color: #ffd166; animation: mr-spin 2.4s ease-in-out infinite; }
+@keyframes mr-spin { 0%, 30% { transform: rotate(0deg); } 60%, 100% { transform: rotate(90deg); } }
+
+/* ---- Settings panel ---- */
+#mr-panel { display: none; position: fixed; inset: 0; z-index: 90; background: rgba(5, 8, 12, 0.72); align-items: center; justify-content: center; }
+#mr-panel.open { display: flex; }
+.mr-panel-box {
+    width: min(520px, 92vw); max-height: 90dvh; overflow: auto;
+    background: linear-gradient(165deg, rgba(30, 41, 56, 0.98) 0%, rgba(14, 19, 27, 0.99) 100%);
+    border: 2px solid rgba(130, 175, 225, 0.6); border-radius: 14px; padding: 18px 20px;
+    font: 700 16px/1.3 "Segoe UI", Tahoma, sans-serif; color: #f0f6fc; box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+}
+.mr-panel-title { font-weight: 900; letter-spacing: 3px; color: #ffd166; margin-bottom: 12px; text-align: center; }
+.mr-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(130,175,225,0.15); }
+.mr-row input[type=checkbox] { width: 30px; height: 30px; accent-color: #38b6ff; }
+.mr-seg { display: inline-flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.mr-seg button, .mr-row-btns button {
+    font: 800 14px/1 "Segoe UI", Tahoma, sans-serif; color: #e6f2ff; background: rgba(9,13,20,0.9);
+    border: 1px solid rgba(130,175,225,0.45); border-radius: 8px; padding: 10px 12px; min-height: 42px;
+}
+.mr-seg button.on { background: #1f6feb; border-color: #fff; }
+.mr-row-btns { justify-content: center; border-bottom: 0; }
+.mr-row-btns button { padding: 12px 18px; }
+#mr-set-close { background: #2ea043; border-color: #b4f0be; }
+.mr-panel-foot { margin-top: 8px; text-align: center; font-size: 11px; color: #8b949e; }
+
+/* ---- Message strip ---- */
+#mr-toast {
+    position: fixed; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(0.96);
+    max-width: 80vw; padding: 12px 18px; border-radius: 10px; z-index: 95;
+    background: rgba(13, 17, 23, 0.92); border: 1px solid rgba(165,214,255,0.5);
+    font: 800 15px/1.35 "Segoe UI", Tahoma, sans-serif; color: #f0f6fc; text-align: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#mr-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+/* Smaller tablets / shorter screens */
+@media (max-height: 640px) {
+    #mr-stick { width: 150px; height: 150px; }
+    #mr-stick-knob { width: 64px; height: 64px; }
+    #mr-buttons { transform: scale(0.86); transform-origin: bottom right; }
+    html.mr-touch #mr-gear { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 180px); }
+    html.mr-touch .hud-bottom { padding: 0 200px 0 186px; }
+}
